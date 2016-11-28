@@ -1,6 +1,6 @@
 {
     "name": "jzpeepz/adestra",
-    "description": "PHP wrapper for the Adestra API",
+    "description": "Laravel wrapper for the Adestra API",
     "authors": [
         {
             "name": "Jonathan Peoples",
