@@ -126,4 +126,16 @@ class AdestraContact {
         return $result == 1;
     }
 
+    public function lists()
+    {
+        if (! $this->exists()) {
+            $this->create();
+        }
+
+        // contact.lists(id)
+        $response = $this->client->request('contact.lists', ['id' => $this->id]);
+
+        return AdestraResponse::make($response)->getData();
+    }
+
 }
