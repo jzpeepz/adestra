@@ -40,6 +40,13 @@ Below are descriptions of the configuration values found in the the adestra.php 
 	$contact = AdestraContact::make(['email' => 'me@emailplace.com']);
 	$result = $contact->unsubscribe($list_id);
 	
+### Get a contact's list ids
+
+Returns an array of ids of the lists a contact is on.
+
+	$lists = AdestraContact::make(['email' => 'me@emailplace.com'])
+				->lists();
+	
 ## Campaigns
 
 ### Create a new campaign
