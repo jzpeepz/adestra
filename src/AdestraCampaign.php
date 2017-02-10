@@ -107,9 +107,9 @@ class AdestraCampaign {
 
         // launch campaign
         // campaign.launch($this->id, { launch_label: '2016-01-01 daily email' })
-        $this->client->request('campaign.launch', compact('id', 'data'));
+        $response = $this->client->request('campaign.launch', compact('id', 'data'));
 
-        return $this;
+        return AdestraResponse::make($response);
     }
 
     public function sendTest($email, $options = [])

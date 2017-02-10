@@ -33,4 +33,13 @@ class AdestraResponse {
         return [];
     }
 
+    public function isError()
+    {
+        if (isset($this->rawResponse->errno) && $this->rawResponse->errno != 0) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

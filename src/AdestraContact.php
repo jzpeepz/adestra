@@ -83,6 +83,20 @@ class AdestraContact {
 
     }
 
+    public function update($data = [])
+    {
+        $this->data = array_merge($this->data, $data);
+
+        //contact.create(table_id, contact_data, dedupe_field)
+        $response = $this->client->request('contact.update', ['contact_id' => $this->id, 'contact_data' => $data]);
+
+        // set the id from response
+        if (isset($response->val) && isset($response->val->me)) {
+            $this->id = $this->data['id'] = @array_shift(array_values($response->val->me));
+        }
+
+    }
+
     public function exists()
     {
         return (! empty($this->id));
