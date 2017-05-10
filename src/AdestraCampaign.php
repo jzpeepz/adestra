@@ -119,9 +119,9 @@ class AdestraCampaign {
         // allow for comma delimited email addresses
         $emails = explode(',', str_replace(' ', '', $email));
 
-        $this->client->request('campaign.sendTest', compact('id', 'emails', 'options'));
+        $response = $this->client->request('campaign.sendTest', compact('id', 'emails', 'options'));
 
-        return $this;
+        return AdestraResponse::make($response);
     }
 
 }
