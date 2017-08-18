@@ -7,6 +7,7 @@ class AdestraContact {
     public $id = null;
     protected $client = null;
     public $data = null;
+    private $table_id = null;
     // public $options = null;
     // public $content = [];
 
@@ -17,6 +18,7 @@ class AdestraContact {
 
         $this->client = $client;
         $this->data = $data;
+        $this->table_id = config('adestra.core_table_id');
 
         if (isset($data['id'])) {
             $this->id = $data['id'];
@@ -32,7 +34,7 @@ class AdestraContact {
     {
         $client = AdestraClient::make();
 
-        $table_id = config('adestra.core_table_id');
+        $table_id = $this->table_id;
         $search_args = ['email' => $email];
 
         $response = $client->request('contact.search', compact('table_id', 'search_args'));
@@ -74,7 +76,7 @@ class AdestraContact {
         $this->data = array_merge($this->data, $data);
 
         //contact.create(table_id, contact_data, dedupe_field)
-        $response = $this->client->request('contact.create', ['table_id' => config('adestra.core_table_id'), 'contact_data' => $this->data]);
+        $response = $this->client->request('contact.create', ['table_id' => $this->table_id, 'contact_data' => $this->data]);
 
         // set the id from response
         if (isset($response->val) && isset($response->val->me)) {
@@ -150,6 +152,13 @@ class AdestraContact {
         $response = $this->client->request('contact.lists', ['id' => $this->id]);
 
         return AdestraResponse::make($response)->getData();
+    }
+
+    public function table($id)
+    {
+        $this->table_id = $id;
+
+        return $this;
     }
 
 }
