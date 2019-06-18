@@ -2,8 +2,8 @@
 
 namespace Jzpeepz\Adestra;
 
-class AdestraCampaign {
-
+class AdestraCampaign
+{
     public $id = null;
     protected $client = null;
     public $data = null;
@@ -116,12 +116,29 @@ class AdestraCampaign {
     {
         $id = $this->id;
 
-        // allow for comma delimited email addresses
-        $emails = explode(',', str_replace(' ', '', $email));
+        if (is_array($email)) {
+            $emails = $email;
+        } else {
+            // allow for comma delimited email addresses
+            $emails = explode(',', str_replace(' ', '', $email));
+        }
 
         $response = $this->client->request('campaign.sendTest', compact('id', 'emails', 'options'));
 
         return AdestraResponse::make($response);
     }
 
+    public function getMessage($type)
+    {
+        $response = $this->client->request('campaign.getMessage', [
+            'campaign_id' => $this->id,
+            'type' => $type,
+        ]);
+
+        $response = AdestraResponse::make($response);
+
+        $rawData = $response->getRawData();
+
+        return html_entity_decode($rawData);
+    }
 }

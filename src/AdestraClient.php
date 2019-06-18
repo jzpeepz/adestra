@@ -2,8 +2,8 @@
 
 namespace Jzpeepz\Adestra;
 
-class AdestraClient {
-
+class AdestraClient
+{
     protected $xmlrpc = null;
 
     public function __construct($account, $username, $password, $debug = false)
@@ -27,11 +27,7 @@ class AdestraClient {
     {
         $options = static::arrayToValues($params);
 
-        // _d($options); exit;
-
         $msg = new \PhpXmlRpc\Request($endpoint, $options);
-
-        // echo '<xmp>' . print_r($msg->serialize(), true) . '</xmp>';
 
         return $this->xmlrpc->send($msg);
     }
@@ -70,5 +66,4 @@ class AdestraClient {
 
         return ! isset($arr[0]);
     }
-
 }

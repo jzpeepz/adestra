@@ -2,8 +2,8 @@
 
 namespace Jzpeepz\Adestra;
 
-class AdestraResponse {
-
+class AdestraResponse
+{
     protected $rawResponse = null;
 
     public function __construct(\PhpXmlRpc\Response $response)
@@ -18,7 +18,10 @@ class AdestraResponse {
 
     public function getData()
     {
-        if (isset($this->rawResponse->val->me) && is_array($this->rawResponse->val->me) && isset($this->rawResponse->val->me['array'])) {
+        if (isset($this->rawResponse->val->me)
+            && is_array($this->rawResponse->val->me)
+            && isset($this->rawResponse->val->me['array'])
+        ) {
             $data = $this->rawResponse->val->me['array'];
 
             $newData = [];
@@ -33,6 +36,11 @@ class AdestraResponse {
         return [];
     }
 
+    public function getRawData()
+    {
+        return $this->rawResponse->raw_data;
+    }
+
     public function isError()
     {
         if (isset($this->rawResponse->errno) && $this->rawResponse->errno != 0) {
@@ -41,5 +49,4 @@ class AdestraResponse {
 
         return false;
     }
-
 }

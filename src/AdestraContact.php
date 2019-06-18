@@ -2,8 +2,8 @@
 
 namespace Jzpeepz\Adestra;
 
-class AdestraContact {
-
+class AdestraContact
+{
     public $id = null;
     protected $client = null;
     public $data = null;
@@ -44,7 +44,7 @@ class AdestraContact {
         if (empty($value)) {
             // nothing found
             return null;
-        } else if (is_array($value) && count($value) == 1) {
+        } elseif (is_array($value) && count($value) == 1) {
             // only one found
             return self::makeFromPhpXmlRpcValue($value[0]);
         } else {
@@ -63,7 +63,7 @@ class AdestraContact {
                 $values = $value->me['struct'];
 
                 foreach ($values as $name => $field) {
-                    $data[$name] = @array_shift(array_values($field->me)); ;
+                    $data[$name] = @array_shift(array_values($field->me));
                 }
             }
         }
@@ -76,13 +76,14 @@ class AdestraContact {
         $this->data = array_merge($this->data, $data);
 
         //contact.create(table_id, contact_data, dedupe_field)
-        $response = $this->client->request('contact.create', ['table_id' => $this->table_id, 'contact_data' => $this->data]);
+        $response = $this->client->request('contact.create', [
+            'table_id' => $this->table_id, 'contact_data' => $this->data
+        ]);
 
         // set the id from response
         if (isset($response->val) && isset($response->val->me)) {
             $this->id = $this->data['id'] = @array_shift(array_values($response->val->me));
         }
-
     }
 
     public function update($data = [])
@@ -96,7 +97,6 @@ class AdestraContact {
         if (isset($response->val) && isset($response->val->me)) {
             $this->id = $this->data['id'] = @array_shift(array_values($response->val->me));
         }
-
     }
 
     public function exists()
@@ -160,5 +160,4 @@ class AdestraContact {
 
         return $this;
     }
-
 }
